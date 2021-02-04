@@ -13,10 +13,12 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 app.get('/todos', function(req, res){
-  const host = process.env.MYSQL_HOST;
-  const user = process.env.MYSQL_USER;
-  const pw = process.env.MYSQL_PW;
-  const db = process.env.DB;
+  let connection = mysql.createConnection({
+    host:process.env.MYSQL_HOST,
+    user:process.env.MYSQL_USER,
+    password:process.env.MYSQL_PW,
+    database: process.env.DB
+  });
   let sql = 'select todo from todos';
   connection.query(sql, (error, results, fields)=>{
     if(error){
