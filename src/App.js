@@ -7,8 +7,18 @@ class App extends React.Component {
     super(props);
     this.state= {
       todo:'',
-      todos:['eat','sleep','game']
+      todos:[]
     }
+  }
+  componentDidMount(){
+      fetch("http://localhost:8080")
+        .then(response => {
+          response.json()
+        }).then(todoResponse=>{
+          this.setState({todos:todoResponse});
+        }).then(err =>{
+          console.log(err);
+        });
   }
   saveToDoListItem = toDoItem => {
     if(!toDoItem){
