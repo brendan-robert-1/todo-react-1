@@ -26,6 +26,7 @@ class App extends React.Component {
     this.setState({todos:[]});
   }
   render(){
+    
     return (
       <div className="App">
         <h1>To Do App</h1>
