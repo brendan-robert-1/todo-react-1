@@ -2,8 +2,9 @@ import React from 'react';
 import './TodoList.css';
 
 class TodoList extends React.Component {
-  crossOut(){
-    
+  crossOut = event =>{
+    const element = event.target;
+    element.classList.toggle("crossed-line");
   }
   render(){
     return (
@@ -11,7 +12,7 @@ class TodoList extends React.Component {
         <ul>
         {this.props.todos.map((item, index) => {
           return (
-            <li onClick={this.crossLine} key={index}>
+            <li onClick={this.crossOut} key={index}>
               {item}
             </li>
           );

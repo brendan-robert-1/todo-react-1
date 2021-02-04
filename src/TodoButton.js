@@ -4,7 +4,7 @@ class TodoButton extends React.Component {
   render(){
     return (
       <div className="TodoButton">
-        <button onClick={this.props.onClick()}>
+        <button onClick={this.props.onClick}>
           {this.props.text}
         </button>
       </div>
