@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const dotenv = require('dotenv').config();
 const app = express();
+const mysql = require('mysql')
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/ping', function (req, res) {
