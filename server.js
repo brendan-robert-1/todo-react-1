@@ -8,11 +8,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 var jsonParser = bodyParser.json();
 console.log('api host: ' + process.env.REACT_APP_API_HOST)
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "thenicsregiment.com"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors());
 
 let connection = mysql.createConnection({
   host:process.env.MYSQL_HOST,
