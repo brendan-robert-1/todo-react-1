@@ -13,7 +13,7 @@ class TodoList extends React.Component {
         {this.props.todos.map((item, index) => {
           return (
             <li onClick={this.crossOut} key={index}>
-              {item.todo}
+              {item.todos}
             </li>
           );
         })}
