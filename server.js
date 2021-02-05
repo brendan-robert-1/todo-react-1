@@ -64,7 +64,7 @@ app.post('/addtodo', jsonParser, function(req, res){
   console.log(query.sql)
   res.send({"status":200});
 });
-const port = 8080;
+const port = 5000;
 console.log('starting app on port' + port + ' via server.js...')
 
 app.listen(port);
