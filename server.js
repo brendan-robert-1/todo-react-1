@@ -6,6 +6,7 @@ const app = express();
 let mysql = require('mysql')
 app.use(express.static(path.join(__dirname, 'build')));
 var jsonParser = bodyParser.json();
+console.log('api host: ' + process.env.REACT_APP_API_HOST)
 let connection = mysql.createConnection({
   host:process.env.MYSQL_HOST,
   user:process.env.MYSQL_USER,
