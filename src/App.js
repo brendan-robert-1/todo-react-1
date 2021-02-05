@@ -2,6 +2,7 @@ import React from 'react';
 import TodoList from './TodoList';
 import TodoButton from './TodoButton';
 import TodoInput from './TodoInput';
+import axios from 'axios';
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -11,23 +12,26 @@ class App extends React.Component {
     }
   }
   componentDidMount(){
-      fetch("http://localhost:8080")
-        .then(response => {
-          response.json()
-        }).then(todoResponse=>{
-          this.setState({todos:todoResponse});
-        }).then(err =>{
-          console.log(err);
-        });
+    axios.get(`http://localhost:8080/todos`)
+    .then(res => {
+      const resJson = res.data;
+      console.log(resJson.todos)
+      this.setState({todos: resJson.todos})
+    })
   }
   saveToDoListItem = toDoItem => {
     if(!toDoItem){
       return;
     }
-    this.setState({
-      todos: [...this.state.todos, this.state.todo],
-      todo:''
+    axios.post(`http://localhost:8080/addtodo`, {
+      todo: toDoItem
     });
+    axios.get(`http://localhost:8080/todos`)
+    .then(res => {
+      const resJson = res.data;
+      console.log(resJson.todos)
+      this.setState({todos: resJson.todos})
+    })
   }
   setInputValue(val){
     this.setState({todo: val});
@@ -39,7 +43,7 @@ class App extends React.Component {
     
     return (
       <div className="App">
-        <h1>To Do App</h1>
+        <h1>Global To-Do!</h1>
         <p>Click a task when completed</p>
         <TodoInput
           type='text'
