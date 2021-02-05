@@ -10,9 +10,11 @@ class App extends React.Component {
       todo:'',
       todos:[]
     }
+    const host = "159.89.51.220";
   }
+ 
   componentDidMount(){
-    axios.get(`http://159.89.51.220/todos`)
+    axios.get(`http://`+this.host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
@@ -23,10 +25,10 @@ class App extends React.Component {
     if(!toDoItem){
       return;
     }
-    axios.post(`http://159.89.51.220/addtodo`, {
+    axios.post(`http://`+this.host+`/addtodo`, {
       todo: toDoItem
     });
-    axios.get(`http://159.89.51.220/todos`)
+    axios.get(`http://`+this.host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
@@ -37,8 +39,8 @@ class App extends React.Component {
     this.setState({todo: val});
   }
   resetTodos(){
-    axios.get(`http://164.90.134.30/reset`);
-    axios.get(`http://164.90.134.30/todos`)
+    axios.get(`http://`+this.host+`/reset`);
+    axios.get(`http://`+this.host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
