@@ -17,7 +17,7 @@ class App extends React.Component {
   }
  
   componentDidMount(){
-    axios.get(`http://`+this.host+`/todos`)
+    axios.get(`http://`+host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
