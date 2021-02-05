@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
 });
 app.get('/todos', function(req, res){
   console.log('fetching todos...')
-  let sql = 'select todo from todos';
+  let sql = 'select todos from todos';
   connection.query(sql, (error, results, fields)=>{
     if(error){
         return console.error(error.message);
@@ -55,7 +55,7 @@ app.post('/addtodo', jsonParser, function(req, res){
   }
   var newtodo = req.body.todo;
   console.log('adding new todos ' + newtodo);
-  var post = {todo: newtodo};
+  var post = {todos: newtodo};
   var query = connection.query('INSERT INTO todos SET?',post, (error, results, fields)=>{
     if(error){
         return console.error(error.message);
