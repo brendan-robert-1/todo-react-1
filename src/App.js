@@ -37,6 +37,13 @@ class App extends React.Component {
     this.setState({todo: val});
   }
   resetTodos(){
+    axios.get(`http://164.90.134.30/reset`);
+    axios.get(`http://164.90.134.30/todos`)
+    .then(res => {
+      const resJson = res.data;
+      console.log(resJson.todos)
+      this.setState({todos: resJson.todos})
+    })
     this.setState({todos:[]});
   }
   render(){

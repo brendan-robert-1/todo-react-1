@@ -37,6 +37,18 @@ app.get('/todos', function(req, res){
     res.send(resp);
   });
 });
+app.get('/reset', function(req, res){
+  console.log('resetting todos...')
+  let sql = 'delete from todos';
+  connection.query(sql, (error, results, fields)=>{
+    if(error){
+        return console.error(error.message);
+    }
+    var resp = JSON.stringify({"status": 200, "error": null, "todos": results});
+    console.log(resp);
+    res.send(resp);
+  });
+});
 app.post('/addtodo', jsonParser, function(req, res){
   if(!req.body.todo){
     return res.status(400).send({success:'false', message:'todo is required'});
