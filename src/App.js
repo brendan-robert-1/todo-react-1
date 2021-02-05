@@ -12,7 +12,7 @@ class App extends React.Component {
     }
   }
   componentDidMount(){
-    axios.get(`http://164.90.134.30:8080/todos`)
+    axios.get(`http://164.90.134.30/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
@@ -23,10 +23,10 @@ class App extends React.Component {
     if(!toDoItem){
       return;
     }
-    axios.post(`http://164.90.134.30:8080/addtodo`, {
+    axios.post(`http://164.90.134.30/addtodo`, {
       todo: toDoItem
     });
-    axios.get(`http://164.90.134.30:8080/todos`)
+    axios.get(`http://164.90.134.30/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
