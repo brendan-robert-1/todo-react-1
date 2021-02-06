@@ -4,7 +4,7 @@ import TodoButton from './TodoButton';
 import TodoInput from './TodoInput';
 import axios from 'axios';
 
-const host = "https://159.89.51.220";
+const host = "https://thenicsregiment.com";
 
 class App extends React.Component {
   constructor(props){
