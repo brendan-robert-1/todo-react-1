@@ -3,13 +3,14 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const dotenv = require('dotenv').config();
 const app = express();
-let mysql = require('mysql')
-app.use(express.static(path.join(__dirname, 'build')));
-var jsonParser = bodyParser.json();
-console.log('api host: ' + process.env.REACT_APP_API_HOST)
+const cors = require('cors')
 
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'build')));
+console.log('api host: ' + process.env.REACT_APP_API_HOST)
+var jsonParser = bodyParser.json();
 
+let mysql = require('mysql')
 let connection = mysql.createConnection({
   host:process.env.MYSQL_HOST,
   user:process.env.MYSQL_USER,
