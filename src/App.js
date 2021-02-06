@@ -4,7 +4,7 @@ import TodoButton from './TodoButton';
 import TodoInput from './TodoInput';
 import axios from 'axios';
 
-const host = "159.89.51.220";
+const host = "https://159.89.51.220";
 
 class App extends React.Component {
   constructor(props){
@@ -17,7 +17,7 @@ class App extends React.Component {
   }
  
   componentDidMount(){
-    axios.get(`http://`+host+`/todos`)
+    axios.get(host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
@@ -28,10 +28,10 @@ class App extends React.Component {
     if(!toDoItem){
       return;
     }
-    axios.post(`http://`+host+`/addtodo`, {
+    axios.post(host+`/addtodo`, {
       todo: toDoItem
     });
-    axios.get(`http://`+host+`/todos`)
+    axios.get(host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
@@ -42,8 +42,8 @@ class App extends React.Component {
     this.setState({todo: val});
   }
   resetTodos(){
-    axios.get(`http://`+host+`/reset`);
-    axios.get(`http://`+host+`/todos`)
+    axios.get(host+`/reset`);
+    axios.get(host+`/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
