@@ -3,8 +3,18 @@ import TodoList from './TodoList';
 import TodoButton from './TodoButton';
 import TodoInput from './TodoInput';
 import axios from 'axios';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+const endpoint = process.env.REACT_APP_API_HOST;
 
-const host = "https://thenicsregiment.com";
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 500,
+  },
+});
+
+
 
 class App extends React.Component {
   constructor(props){
@@ -13,11 +23,10 @@ class App extends React.Component {
       todo:'',
       todos:[]
     }
-
   }
- 
   componentDidMount(){
-    axios.get(host+`/todos`)
+    console.log('endpoint: ' + endpoint)
+    axios.get(endpoint + `/todos`)
     .then(res => {
       const resJson = res.data;
       console.log(resJson.todos)
@@ -25,38 +34,32 @@ class App extends React.Component {
     })
   }
   saveToDoListItem = toDoItem => {
+    console.log('todo item: ' + toDoItem)
     if(!toDoItem){
       return;
     }
-    axios.post(host+`/addtodo`, {
+    axios.post(endpoint + `/addtodo`, {
       todo: toDoItem
-    });
-    axios.get(host+`/todos`)
-    .then(res => {
-      const resJson = res.data;
-      console.log(resJson.todos)
-      this.setState({todos: resJson.todos})
     })
+    .then(this.setState({
+      todos: this.state.todos.concat({todos:toDoItem}),
+      todo:''
+    }))
   }
   setInputValue(val){
     this.setState({todo: val});
   }
   resetTodos(){
-    axios.get(host+`/reset`);
-    axios.get(host+`/todos`)
-    .then(res => {
-      const resJson = res.data;
-      console.log(resJson.todos)
-      this.setState({todos: resJson.todos})
-    })
+    console.log('resetting...')
+    axios.get(endpoint + `/reset`);
     this.setState({todos:[]});
   }
   render(){
-    
+    const { classes } = this.props;
     return (
-      <div className="App">
-        <h1>Global To-Do!</h1>
-        <p>Click a task when completed</p>
+      <div className={classes.root}>
+        <Typography variant="h4">Global To-Do!</Typography >
+        <Typography variant="subtitle1">Click a task when completed</Typography>
         <TodoInput
           type='text'
           placeholder='Enter new task...'
@@ -79,4 +82,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withStyles(styles, { withTheme: true })(App);

@@ -1,26 +1,32 @@
 import React from 'react';
 import './TodoList.css';
+import {List} from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Checkbox from '@material-ui/core/Checkbox';
 
-class TodoList extends React.Component {
-  crossOut = event =>{
-    const element = event.target;
-    element.classList.toggle("crossed-line");
-  }
-  render(){
-    return (
-      <div className="TodoList">
-        <ul>
-        {this.props.todos.map((item, index) => {
-          return (
-            <li onClick={this.crossOut} key={index}>
-              {item.todos}
-            </li>
-          );
-        })}
-        </ul>
-      </div>
-    );
-  }
+const TodoList = (props) =>  { 
+
+  return (
+      <List>
+      {props.todos.map((item, index) => {
+        return (
+          
+          <ListItem key={index} >
+            <ListItemIcon>
+            <Checkbox
+              edge="start"
+              checked={item.todos.isComplete}
+              tabIndex={-1}
+            />
+          </ListItemIcon>
+              <ListItemText primary={item.todos} />
+          </ListItem>
+        );
+      })}
+      </List>
+  );
 }
 
 export default TodoList;

@@ -1,19 +1,28 @@
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
+import {makeStyles} from '@material-ui/core/styles';
 
-class TodoInput extends React.Component {
-  render(){
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
+const TodoInput = (props) => {
+  const classes = useStyles();
     return (
-      <div className="TodoInput">
-      <input 
-         type={this.props.type}
-         value={this.props.value}
-         placeholder={this.props.placeholder}
-         onChange={(e) => this.props.onChange(e.target.value)}>
-      </input>
-     </div>
+      <form className={classes.root}>
+        <TextField className
+          type={props.type}
+          value={props.value}
+          placeholder={props.placeholder}
+          onChange={(e) => props.onChange(e.target.value)}>
+        </TextField>
+      </form>
     );
-  };
- 
 }
 
 export default TodoInput;
