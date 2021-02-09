@@ -51,11 +51,16 @@ const useStyles = makeStyles((theme) => ({
         top: 0,
         position: "fixed",
         padding: '20px'
-    },gridroot:{
-        flexGrow:1
-    },paper: {
-        height:500,
-        width:300
+    }, gridroot: {
+        flexGrow: 1,
+        margin: 40,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    }, paper: {
+        textAlign: 'center',
+        height: '500px',
+        padding:10
     }
 }));
 
@@ -71,7 +76,7 @@ export default function Landing() {
                 <Typography color="secondray" variant="h2">(Calis)-Thenics Regiment</Typography>
             </div>
             <div className={classes.login} >
-                <Link style={{ textDecoration: 'none', paddingRight:'10px' }} to="/login"><Button
+                <Link style={{ textDecoration: 'none', paddingRight: '10px' }} to="/login"><Button
                     variant="contained"
                     color="white">Login
                 </Button>
@@ -81,38 +86,35 @@ export default function Landing() {
                     color="secondary">Register
                 </Button>
                 </Link>
-               
-            </div>
 
+            </div>
             <div className={classes.gridroot}>
-            <Grid
-                container
-                spacing={9}
-                direction="column"
-                alignItems="center"
-                justify="center"
-                style={{ minHeight: '100vh' }}
-            >
-                <Grid item xs={12}>
-                    <Grid container justify="center" spacing={6}>
-                        <Grid key={0} item>
-                            <PaperCard classes={classes.paper} title="Lose Weight" paperColor="black"></PaperCard>
+                <Grid
+                    container
+                    alignItems="center"
+                    justify="center"
+                    style={{ minHeight: '100vh' }}
+                >
+
+                    <Grid container justify="center" spacing={3}>
+                        <Grid item xs>
+                            <PaperCard classes={classes.paper} title="Lose Weight"></PaperCard>
                         </Grid>
-                        <Grid key={1} item>
-                        <PaperCard classes={classes.paper} title="Gain Muscle" paperColor=""></PaperCard>
+                        <Grid item xs>
+                            <PaperCard classes={classes.paper} title="Gain Muscle"></PaperCard>
                         </Grid>
-                        <Grid key={2} item>
-                        <PaperCard classes={classes.paper} title="Learn Skills" paperColor=""></PaperCard>
+                        <Grid item xs>
+                            <PaperCard classes={classes.paper} title="Learn Skills"></PaperCard>
                         </Grid>
                     </Grid>
+
                 </Grid>
-            </Grid>
             </div>
-            </div>
+        </div>
     );
 }
-const PaperCard = (props) =>{
-    return(<Link style={{ textDecoration: 'none' }} to="/dashboard"><Paper className={props.classes} elevation={3}><Typography variant="h4">{props.title}</Typography></Paper></Link>);
+const PaperCard = (props) => {
+    return (<Link style={{ textDecoration: 'none' }} to="/dashboard"><Paper className={props.classes} elevation={3}><Typography variant="h4">{props.title}</Typography></Paper></Link>);
 }
 const theme = createMuiTheme({
     palette: {
