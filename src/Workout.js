@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 const endpoint = process.env.REACT_APP_API_HOST;
@@ -41,12 +42,14 @@ class Workout extends React.Component  {
             <div className={classes.root}>
                 <Paper elevation={3}>
                     <Typography variant="h2">{this.state.workout.dayOfWeek}:&nbsp;{this.state.workout.name}</Typography>
-                    <Typography variant="subtitle1">          
-                    {this.state.workout.targets && this.state.workout.targets.map((value, index) =>{
-                         {return (index ? ', ' : '') + value} 
-                    })}
+                    <Link to={{pathname: '/exercise-profile', shortName:"pullup"}}>
+                        <Typography variant="subtitle1">          
+                        {this.state.workout.targets && this.state.workout.targets.map((value, index) =>{
+                            {return (index ? ', ' : '') + value} 
+                        })}
+                        </Typography>
+                    </Link>
                     <Divider/>  
-                    </Typography>
                     {this.state.workout.exercises && this.state.workout.exercises.map((value) =>{
                         return(
                             <Excercise excercise={value} classes={classes}></Excercise>
@@ -55,7 +58,6 @@ class Workout extends React.Component  {
 
                     }
                 </Paper>
-               
             </div>
         );
     }
@@ -65,7 +67,7 @@ const Excercise = (props) =>{
     return(
         <div className={props.classes.exercise}>
             <Typography variant="h6">{props.excercise.name}</Typography>
-            <Typography variant="p">{props.excercise.sets} sets of {props.excercise.reps} reps {props.excercise.weight} {props.excercise.weightUnit} {props.excercise.rest} {props.excercise.restUnit} rest
+            <Typography variant="body1">{props.excercise.sets} sets of {props.excercise.reps} reps {props.excercise.weight} {props.excercise.weightUnit} {props.excercise.rest} {props.excercise.restUnit} rest
             </Typography>
             <Divider/>  
         </div>

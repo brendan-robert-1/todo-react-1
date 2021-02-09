@@ -84,6 +84,14 @@ app.get('/workout', function(req, res){
           });
   });
 });
+s3.listBuckets({}, function(err, data){
+  if(err) console.log(err, err.stack)
+  else {
+          data['Buckets'].forEach(function(space) {
+                  console.log(space['Name']);
+                })
+  }
+})
 
 const port = 5000;
 console.log('starting app on port' + port + ' via server.js...')

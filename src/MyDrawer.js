@@ -6,18 +6,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
 import { Link } from 'react-router-dom';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import GitHubIcon from '@material-ui/icons/GitHub';
+import MailIcon from '@material-ui/icons/Mail';
 
 const MyDrawer = (props) => {
   const classes = useStyles();
@@ -26,21 +16,62 @@ const MyDrawer = (props) => {
     <div className={classes.root}>
       <Drawer open={props.open} onClose={props.toggleDrawer(false)}>
         <List>
-        <ListItem component={Link} to={'/'} button onClick={props.toggleDrawer(false)}>
-            <ListItemText primary="Home"/>
+        <ListItem className={classes.listItem} component={Link} to={'/'} button onClick={props.toggleDrawer(false)}>
+            <ListItemText classes={{primary:classes.listItemText}} primary="Home"/>
           </ListItem>
           <Divider />
-          <ListItem component={Link} to={'/todo'} button onClick={props.toggleDrawer(false)}>
-              <ListItemText primary="Todo"/>
+          <ListItem className={classes.listItem} component={Link} to={'/workout'} button onClick={props.toggleDrawer(false)}>
+            <ListItemText classes={{primary:classes.listItemText}} primary="Workouts"/>
           </ListItem>
-          <Divider />
-          <ListItem component={Link} to={'/workout'} button onClick={props.toggleDrawer(false)}>
-            <ListItemText primary="Workout"/>
+          <Divider/>
+          <ListItem className={classes.listItem} component={Link} to={'/view-exercises'} button onClick={props.toggleDrawer(false)}>
+            <ListItemText classes={{primary:classes.listItemText}} primary="Build Workout Routine"/>
+          </ListItem>
+          <Divider/>
+          <ListItem className={classes.listItem} component={Link} to={'/add-exercise'} button onClick={props.toggleDrawer(false)}>
+            <ListItemText classes={{primary:classes.listItemText}} primary="Create Exercises"/>
+          </ListItem>
+          <Divider/>
+          <ListItem className={classes.listItem} component={Link} to={'/view-exercises'} button onClick={props.toggleDrawer(false)}>
+            <ListItemText classes={{primary:classes.listItemText}} primary="View Exercises"/>
           </ListItem>
         </List>
+        <div className={classes.bottomPush}>
+          <List style={flexContainer}>
+            <ListItem><Link to={{pathname: '/github'}}><GitHubIcon color="primary" style={{fontSize: 40}}></GitHubIcon></Link></ListItem>
+            <ListItem><a href={"mailto: brendan.robert50point@gmail.com"}><MailIcon color="primary" style={{fontSize: 40}}></MailIcon></a></ListItem>
+          </List>
+        </div>
       </Drawer>
     </div>
   );
 }
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  listItem: {
+    paddingRight:80,
+    paddingLeft:20
 
+  },
+  listItemText:{
+    fontSize:'1.6em'
+  },
+  title: {
+    flexGrow: 1,
+  },
+  bottomPush: {
+    position: "fixed",
+    bottom: 0,
+    textAlign: "center",
+    paddingBottom: 30,
+    paddingLeft:70,
+}
+}));
+const flexContainer = {
+  display: 'flex',
+  flexDirection: 'row',
+  padding: 0,
+};
 export default MyDrawer;

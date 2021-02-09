@@ -4,6 +4,8 @@ import Workout from './Workout';
 import Todo from './Todo';
 import MyAppBar from './MyAppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import ExerciseProfile from './ExerciseProfile';
+import AddExercise from './addcontent/AddExercise';
 
 class App extends React.Component {
   render(){
@@ -16,6 +18,12 @@ class App extends React.Component {
                 <Route exact path='/' component={Home}/>
                 <Route path='/todo' component={Todo}/>
                 <Route path='/workout' component={Workout}/>
+                <Route path='/exercise-profile' component={ExerciseProfile}/>
+                <Route path='/add-exercise' component={AddExercise}/>
+                <Route path='/github' component={() => { 
+                  window.location.href = 'https://github.com/brendan-robert-1'; 
+                  return null;
+                  }}/>
               </Switch>
           </Router>
         </div>
