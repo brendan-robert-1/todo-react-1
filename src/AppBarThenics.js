@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
-import MyDrawer from './MyDrawer';
+import MyDrawer from './DrawerThenics';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyAppBar = (props) => {
+const AppBarThenics = (props) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = (open) => (event) => {
@@ -37,7 +38,7 @@ const MyAppBar = (props) => {
             <MenuIcon/>  
           </IconButton> 
           <Typography variant="h6" className={classes.title}>{props.title}</Typography>
-          <Button color="inherit">Login</Button>
+          <Button component={Link} to={'/login'} color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
       <MyDrawer open={open} toggleDrawer={toggleDrawer}></MyDrawer>
@@ -45,4 +46,4 @@ const MyAppBar = (props) => {
   );
 }
 
-export default MyAppBar;
+export default AppBarThenics;

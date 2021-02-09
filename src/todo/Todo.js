@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import TodoList from './TodoList';
-import TodoButton from './TodoButton';
+import TodoButton from '../ButtonThenics';
 import TodoInput from './TodoInput';
 
 import Typography from '@material-ui/core/Typography';
