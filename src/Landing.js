@@ -176,7 +176,7 @@ class Landing extends React.Component {
                     <div className={classes.opaqueOverlay}></div>
                     <div className={classes.blackBlockItem}><Typography variant="h3">Browse the exercise library.</Typography></div>
                  </div></Link>
-                <FooterLanding></FooterLanding>
+                <FooterLanding windowWidth={windowWidth}></FooterLanding>
             </div>);
     }
 }

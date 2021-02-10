@@ -10,35 +10,36 @@ const useStyles = makeStyles((theme) => ({
         display:'flex',
         background: "#080f17",
         justifyContent:'space-between',
-        position:'relative',
-    },footerBoxRow:{
+        flexDirection:'row'
+    },footerBox:{
         margin:'30px',
         color:'white',
+        alignItems:'flex-start',
+        flexDirection:'row'
+    },icon:{
+        margin:'10px'
+    },iconContainer:{
         display:'flex',
         flexDirection:'row'
-    },footerBoxColumn:{
-        margin:'30px',
-        color:'white',
-        display:'flex',
-        flexDirection:'column'
-    },icon:{
-        padding:'20px'
     }
   }));
 
-export default function FooterLanding(){
+export default function FooterLanding(props){
     const classes = useStyles();
     return (
         <div className={classes.footer}>
-            <div className={classes.footerBoxColumn}>
-                <Typography variant="h5">Contact Information</Typography>
+            <div className={classes.footerBox}>
+                <Typography variant="h6">Contact Information</Typography>
                 <Typography variant="body1">thenicsregiment@gmail.com</Typography>
                 <Typography variant="body1">555.555.5555</Typography>
+                <div className={classes.iconContainer}>
+                    <div className={classes.icon}><Link href="https://github.com/brendan-robert-1"><GitHubIcon style={{fontSize:30}} color="secondary"></GitHubIcon></Link></div>
+                    <div className={classes.icon}><Link href="https://twitter.com/brendanrobert3"><TwitterIcon style={{fontSize:30}} color="secondary" ></TwitterIcon></Link></div>
+                </div>
+                
+            
             </div>
-            <div className={classes.footerBoxRow}>
-                <div className={classes.icon}><Link href="https://github.com/brendan-robert-1"><GitHubIcon style={{fontSize:50}} color="secondary"></GitHubIcon></Link></div>
-                <div className={classes.icon}><Link href="https://twitter.com/brendanrobert3"><TwitterIcon style={{fontSize:50}} color="secondary" ></TwitterIcon></Link></div>
-            </div>
+           
         </div>
     )
 }
