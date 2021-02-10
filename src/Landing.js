@@ -178,7 +178,7 @@ class Landing extends React.Component {
                
                 <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.videoContainer}>  
                     <div className={classes.videoBackground}>
-                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-6102982.mp4'} type="video/mp4" /></video>
+                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-61029821.mp4'} type="video/mp4" /></video>
                     </div>
                     <div className={classes.opaqueOverlay}></div>
                     <div className={classes.blackBlockItem}><Typography variant="h3">Learn new calisthenics skills.</Typography></div>
