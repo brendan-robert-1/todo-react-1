@@ -86,6 +86,7 @@ class Landing extends React.Component {
             windowHeight: 0,
             drawerOpen: false,
             anchorHeader: false,
+            bottomVideo:''
         };
         this.updateDimensions = this.updateDimensions.bind(this);
        
@@ -101,8 +102,15 @@ class Landing extends React.Component {
     updateDimensions() {
         let windowWidth = typeof window !== "undefined" ? window.innerWidth : 0;
         let windowHeight = typeof window !== "undefined" ? window.innerHeight : 0;
-
         this.setState({ windowWidth, windowHeight });
+        const small = windowWidth < 650;
+        if(small){
+            console.log('small video')
+            this.setState({bottomVideo:'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/SEQ2.mp4'})
+        }else{
+            console.log('big video')
+            this.setState({bottomVideo:'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/production%20ID_4367507.mp4'})
+        }
     }
 
     toggleDrawer(value) {
@@ -112,10 +120,7 @@ class Landing extends React.Component {
         const { classes } = this.props;
         const { windowWidth } = this.state;
         const small = windowWidth < 650;
-        const videoRef = React.createRef();
-        const setPlayBack = () => {
-            videoRef.current.playbackRate = 0.8;
-          };
+       
         return (
             <div>
                 <AppBar className={classes.header} position="sticky">
@@ -159,7 +164,7 @@ class Landing extends React.Component {
                 </Drawer>
                 <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.videoContainer}>  
                     <div className={classes.videoBackground}>
-                        <video ref={videoRef} onCanPlay={() => setPlayBack()} className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-61029821.mp4'} type="video/mp4" /></video>
+                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-61029821.mp4'} type="video/mp4" /></video>
                     </div>
                     <div className={classes.opaqueOverlay}></div>
                     <div className={classes.blackBlockItem}><Typography variant="h3">Learn new calisthenics skills.</Typography></div>
@@ -171,7 +176,7 @@ class Landing extends React.Component {
                     </Link>
                     <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.videoContainer}>  
                     <div className={classes.videoBackground}>
-                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/production%20ID_4367507.mp4'} type="video/mp4" /></video>
+                        <video className={classes.video}  key={this.state.bottomVideo} loop muted autoPlay><source src={this.state.bottomVideo} type="video/mp4" /></video>
                     </div>
                     <div className={classes.opaqueOverlay}></div>
                     <div className={classes.blackBlockItem}><Typography variant="h3">Browse the exercise library.</Typography></div>
