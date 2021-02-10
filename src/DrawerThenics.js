@@ -25,7 +25,7 @@ const MyDrawer = (props) => {
           </ListItem>
           <Divider/>
           <ListItem className={classes.listItem} component={Link} to={'/view-exercises'} button onClick={props.toggleDrawer(false)}>
-            <ListItemText classes={{primary:classes.listItemText}} primary="Build Workout Routine"/>
+            <ListItemText classes={{primary:classes.listItemText}} primary="Build Routine"/>
           </ListItem>
           <Divider/>
           <ListItem className={classes.listItem} component={Link} to={'/add-exercise'} button onClick={props.toggleDrawer(false)}>
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   listItem: {
-    paddingRight:80,
+    paddingRight:30,
     paddingLeft:20
 
   },
@@ -60,18 +60,17 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  },
-  bottomPush: {
-    position: "fixed",
-    bottom: 0,
-    textAlign: "center",
-    paddingBottom: 30,
-    paddingLeft:70,
-}
+  },bottomPush: {
+    position:'absolute',
+    bottom:0,
+    width:'100%'
+  }
 }));
 const flexContainer = {
   display: 'flex',
   flexDirection: 'row',
   padding: 0,
+  justifyContent:'space-between',
+  padding:15
 };
 export default MyDrawer;

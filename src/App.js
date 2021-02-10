@@ -9,6 +9,7 @@ import Register from './auth/Register';
 import Landing from './Landing';
 import Dashboard from './Dashboard';
 import { createMuiTheme } from '@material-ui/core/styles';
+import ExerciseLibrary from './ExerciseLibrary';
 
 class App extends React.Component {
   render(){
@@ -28,6 +29,7 @@ class App extends React.Component {
                   }}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/register' component={Register}/>
+                <Route path='/exercise-library' component={ExerciseLibrary}/>
               </Switch>
           </Router>
         </div>

@@ -1,129 +1,149 @@
 import React from 'react';
-import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { CardContent, Typography } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-
-const useStyles = makeStyles((theme) => ({
-    waveTop: {
-        width: '100%',
-        height: '500px',
-        backgroundSize: 'cover',
-        backgroundImage: `url(${'./media/wave.svg'})`,
-        position: 'fixed',
-        zIndex: "-1"
-    }, wave1: {
-        width: '100%',
-        height: '500px',
-        backgroundSize: 'cover',
-        backgroundImage: `url(${'./media/wave1.svg'})`,
-        position: 'fixed',
-        zIndex: "-1"
-    }, wave3: {
-        width: '100%',
-        height: '500px',
-        backgroundSize: 'cover',
-        backgroundImage: `url(${'./media/wave3.svg'})`,
-        position: 'fixed',
-        zIndex: "-1"
-    }, wave4: {
-        width: '100%',
-        height: '500px',
-        backgroundSize: 'cover',
-        backgroundImage: `url(${'./media/wave4.svg'})`,
-        position: 'fixed',
-        zIndex: "-1"
-    }, title: {
-        color: 'white',
-        zIndex: "9",
-        positon: "relative",
-        top: 0,
-        paddingTop: '10px',
-        paddingLeft: '20px'
-    }, subtitle: {
-        paddingLeft: '10px',
-        paddingTop: '10px'
-    }, login: {
-        right: 0,
-        top: 0,
-        position: "fixed",
-        padding: '20px'
-    }, gridroot: {
-        flexGrow: 1,
-        margin: 40,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }, paper: {
-        textAlign: 'center',
-        height: '500px',
-        padding:10
-    }
-}));
-
-export default function Landing() {
-    const classes = useStyles();
-    return (
-        <div>
-            <div className={classes.waveTop} />
-            <div className={classes.wave1} />
-            <div className={classes.wave3} />
-            <div className={classes.wave4} />
-            <div className={classes.title}>
-                <Typography color="secondray" variant="h2">(Calis)-Thenics Regiment</Typography>
-            </div>
-            <div className={classes.login} >
-                <Link style={{ textDecoration: 'none', paddingRight: '10px' }} to="/login"><Button
-                    variant="contained"
-                    color="white">Login
-                </Button>
-                </Link>
-                <Link style={{ textDecoration: 'none' }} to="/register"><Button
-                    variant="outlined"
-                    color="secondary">Register
-                </Button>
-                </Link>
-
-            </div>
-            <div className={classes.gridroot}>
-                <Grid
-                    container
-                    alignItems="center"
-                    justify="center"
-                    style={{ minHeight: '100vh' }}
-                >
-
-                    <Grid container justify="center" spacing={3}>
-                        <Grid item xs>
-                            <PaperCard classes={classes.paper} title="Lose Weight"></PaperCard>
-                        </Grid>
-                        <Grid item xs>
-                            <PaperCard classes={classes.paper} title="Gain Muscle"></PaperCard>
-                        </Grid>
-                        <Grid item xs>
-                            <PaperCard classes={classes.paper} title="Learn Skills"></PaperCard>
-                        </Grid>
-                    </Grid>
-
-                </Grid>
-            </div>
-        </div>
-    );
-}
-const PaperCard = (props) => {
-    return (<Link style={{ textDecoration: 'none' }} to="/dashboard"><Paper className={props.classes} elevation={3}><Typography variant="h4">{props.title}</Typography></Paper></Link>);
-}
-const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#4F000E',
-        },
-        secondary: {
-            main: '#7ec1bf',
-        },
-
+import MenuIcon from '@material-ui/icons/Menu';
+import IconButton from '@material-ui/core/IconButton';
+import Drawer from '@material-ui/core/SwipeableDrawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import AppBar from '@material-ui/core/AppBar';
+import { TransitionGroup  } from 'react-transition-group' 
+import Toolbar from '@material-ui/core/Toolbar';
+const styles = theme => ({
+    root: {
+        flexGrow: 1
     },
+    header: {
+        flexGrow:1,
+        backgroundColor:'white',
+    }, buttons: {
+        alignItems:'center'
+    }, button: {
+        margin: '5px'
+    },title:{
+        color:'#080f17',
+        flexGrow:1
+    },blockwhite: {
+        display:'flex',
+        backgroundColor:'white',
+        height:'600px',
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center'
+    },blockblack: {
+        backgroundColor:'#080f17',
+        height:'600px',
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center'
+    },burger:{
+        color:'#080f17'
+    },whiteBlockItem:{
+        color:'#080f17'
+    },
+    blackBlockItem:{
+        color:'white'
+    }
 });
+class Landing extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            windowWidth: 0,
+            windowHeight: 0,
+            drawerOpen: false,
+            anchorHeader: false,
+        };
+        this.updateDimensions = this.updateDimensions.bind(this);
+        this.scroll = this.scroll.bind(this);
+    }
+    componentDidMount() {
+        this.updateDimensions();
+        window.addEventListener("resize", this.updateDimensions);
+        window.addEventListener("scroll", this.scroll);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateDimensions);
+    }
+    updateDimensions() {
+        let windowWidth = typeof window !== "undefined" ? window.innerWidth : 0;
+        let windowHeight = typeof window !== "undefined" ? window.innerHeight : 0;
+
+        this.setState({ windowWidth, windowHeight });
+    }
+    scroll(){
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
+        const scrolled = winScroll / height
+        if(scrolled > .3){
+            console.log('anchoring')
+            this.setState({
+                anchorHeader: true
+            })
+        }else {
+            this.setState({
+                anchorHeader: false
+            })
+        }
+       
+    }
+    toggleDrawer(value) {
+          this.setState({drawerOpen:value})
+        }
+    render() {
+        const { classes } = this.props;
+        const { windowWidth } = this.state;
+        const small = windowWidth < 650;
+        return (
+            <div>
+                <AppBar className={classes.header} position="sticky">
+                    <Toolbar>
+                    <Typography className={classes.title} variant={small ? 'h6' : 'h6'}>
+                        (Calis)-thenics Regiments
+                </Typography>
+                    {small ? (
+                        <div className={classes.buttons}>
+                            <IconButton className={classes.menuButton} edge="start" color="inherit" aria-label="menu"
+                             onClick={()=>this.toggleDrawer(true)}>
+                                <MenuIcon className={classes.burger}/>
+                            </IconButton>
+                        </div>) : (
+                        <div className={classes.buttons}>
+                            <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
+                                <Button color="primary" className={classes.button} 
+                                    variant="contained">Exercise Library</Button></Link>
+                            <Link to={{ pathname: '/login' }} style={{ textDecoration: 'none' }}>
+                                <Button color="primary" className={classes.button} 
+                                    variant="contained">Login</Button></Link>
+                            <Link to={{ pathname: '/register' }} style={{ textDecoration: 'none' }}>
+                                <Button color="primary" className={classes.button} variant="contained">Sign Up</Button></Link>
+                        </div>)}
+                    </Toolbar>
+                    
+                </AppBar>
+                <Drawer open={this.state.drawerOpen} onClose={()=>this.toggleDrawer(false)} anchor="right">
+                    <List>
+                        <ListItem  component={Link} to={'/login'} button >
+                            <ListItemText  primary="Login" />
+                        </ListItem>
+                        <Divider />
+                        <ListItem  component={Link} to={'/register'} button >
+                            <ListItemText primary="Register" />
+                        </ListItem>
+                        <ListItem  component={Link} to={'/exercise-library'} button >
+                            <ListItemText primary="Exercise Library" />
+                        </ListItem>
+                    </List>
+                </Drawer>
+                <div className={classes.blockblack}><div className={classes.blackBlockItem}><Typography variant="h3">Lose Weight</Typography></div></div>
+                <div className={classes.blockwhite}><div className={classes.whiteBlockItem}><Typography variant="h3">Gain Muscle</Typography></div></div>
+                <div className={classes.blockblack}><div className={classes.blackBlockItem}><Typography variant="h3">Learn New Skills</Typography></div></div>
+            </div>);
+    }
+}
+export default withStyles(styles, { withTheme: true })(Landing);

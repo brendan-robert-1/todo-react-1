@@ -18,32 +18,39 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  },
+  },login: {
+
+  }
 }));
 
 const AppBarThenics = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [state, setState] = React.useState({
+    drawerOpen: false,
+    mobileView: false
+  });
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    setOpen(prevCheck => !prevCheck);
+    setState((prevState) => ({ ...prevState, drawerOpen: !state.drawerOpen }));
   }
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer()}>
-            <MenuIcon/>  
-          </IconButton> 
-          <Typography variant="h6" className={classes.title}>{props.title}</Typography>
-          <Button component={Link} to={'/login'} color="inherit">Login</Button>
+          <IconButton className={classes.menuButton}edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer()}>
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            Thenics Dashboard
+          </Typography>
+          <Button variant="outlined" className={classes.login} component={Link} to={'/login'} color="inherit">Login</Button>
         </Toolbar>
+
       </AppBar>
-      <MyDrawer open={open} toggleDrawer={toggleDrawer}></MyDrawer>
+      <MyDrawer open={state.drawerOpen} toggleDrawer={toggleDrawer}></MyDrawer>
     </div>
   );
 }
-
 export default AppBarThenics;
