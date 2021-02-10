@@ -135,7 +135,7 @@ class Landing extends React.Component {
                         <ListItem  component={Link} to={'/register'} button >
                             <ListItemText primary="Register" />
                         </ListItem>
-                        <ListItem  component={Link} to={'/exercise-library'} button >
+                        <ListItem  component={Link} to={'/dashboard'} button >
                             <ListItemText primary="Exercise Library" />
                         </ListItem>
                     </List>
