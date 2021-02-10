@@ -176,19 +176,26 @@ class Landing extends React.Component {
                   
                
                
-                <div className={classes.videoContainer}>  
+                <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.videoContainer}>  
                     <div className={classes.videoBackground}>
                         <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-6102982.mp4'} type="video/mp4" /></video>
                     </div>
                     <div className={classes.opaqueOverlay}></div>
-                    <div className={classes.blackBlockItem}><Typography variant="h3">Build a Workout Routine</Typography></div>
-                 </div>
-              
-                <div className={classes.blockwhite}>
-                    <div className={classes.whiteBlockItem}><Typography variant="h3">Gain Muscle</Typography></div>
+                    <div className={classes.blackBlockItem}><Typography variant="h3">Learn new calisthenics skills.</Typography></div>
+                 </div></Link>
+                 <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.blockwhite}>
+                    <div className={classes.whiteBlockItem}><Typography variant="h3">Build a workout routine.</Typography></div>
                     <Paper className={classes.gainMusclePaper}></Paper>
                     </div>
-                <div className={classes.blockblack}><div className={classes.blackBlockItem}><Typography variant="h3">Build a workout Routine</Typography></div></div>
+                    </Link>
+                    <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.videoContainer}>  
+                    <div className={classes.videoBackground}>
+                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/production%20ID_4367507.mp4'} type="video/mp4" /></video>
+                    </div>
+                    <div className={classes.opaqueOverlay}></div>
+                    <div className={classes.blackBlockItem}><Typography variant="h3">Browse the exercise library.</Typography></div>
+                 </div></Link>
+          
             </div>);
     }
 }
