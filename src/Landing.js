@@ -14,6 +14,7 @@ import AppBar from '@material-ui/core/AppBar';
 import { TransitionGroup  } from 'react-transition-group' 
 import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
+import FooterLanding from './FooterLanding';
 const styles = theme => ({
     root: {
         flexGrow: 1
@@ -75,7 +76,7 @@ const styles = theme => ({
         backgroundColor:'black',
         opacity:'0.7',
         zIndex:-1
-    },
+    }
 });
 class Landing extends React.Component {
     constructor(props) {
@@ -175,7 +176,7 @@ class Landing extends React.Component {
                     <div className={classes.opaqueOverlay}></div>
                     <div className={classes.blackBlockItem}><Typography variant="h3">Browse the exercise library.</Typography></div>
                  </div></Link>
-          
+                <FooterLanding></FooterLanding>
             </div>);
     }
 }

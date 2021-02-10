@@ -39,7 +39,7 @@ const MyDrawer = (props) => {
         <div className={classes.bottomPush}>
           <List style={flexContainer}>
             <ListItem><Link to={{pathname: '/github'}}><GitHubIcon color="primary" style={{fontSize: 40}}></GitHubIcon></Link></ListItem>
-            <ListItem><a href={"mailto: brendan.robert50point@gmail.com"}><MailIcon color="primary" style={{fontSize: 40}}></MailIcon></a></ListItem>
+            <ListItem><a href={"mailto: thenicsregiment@gmail.com"}><MailIcon color="primary" style={{fontSize: 40}}></MailIcon></a></ListItem>
           </List>
         </div>
       </Drawer>

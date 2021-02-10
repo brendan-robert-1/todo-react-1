@@ -23,10 +23,6 @@ class App extends React.Component {
                 <Route path='/workout' component={Workout}/>
                 <Route path='/exercise-profile' component={ExerciseProfile}/>
                 <Route path='/add-exercise' component={AddExercise}/>
-                <Route path='/github' component={() => { 
-                  window.location.href = 'https://github.com/brendan-robert-1'; 
-                  return null;
-                  }}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/register' component={Register}/>
                 <Route path='/exercise-library' component={ExerciseLibrary}/>
