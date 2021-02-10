@@ -36,8 +36,8 @@ export default function FooterLanding(){
                 <Typography variant="body1">555.555.5555</Typography>
             </div>
             <div className={classes.footerBoxRow}>
-                <div className={classes.icon}><Link href="https://github.com/brendan-robert-1"><GitHubIcon style={{fontSize:50}} color="primary"></GitHubIcon></Link></div>
-                <div className={classes.icon}><Link href="https://twitter.com/brendanrobert3"><TwitterIcon style={{fontSize:50}} color="primary" ></TwitterIcon></Link></div>
+                <div className={classes.icon}><Link href="https://github.com/brendan-robert-1"><GitHubIcon style={{fontSize:50}} color="secondary"></GitHubIcon></Link></div>
+                <div className={classes.icon}><Link href="https://twitter.com/brendanrobert3"><TwitterIcon style={{fontSize:50}} color="secondary" ></TwitterIcon></Link></div>
             </div>
         </div>
     )
