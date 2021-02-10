@@ -12,6 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
 import { TransitionGroup  } from 'react-transition-group' 
+import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 const styles = theme => ({
     root: {
@@ -28,25 +29,55 @@ const styles = theme => ({
         color:'#080f17',
         flexGrow:1
     },blockwhite: {
-        display:'flex',
-        backgroundColor:'white',
         height:'600px',
         display:'flex',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        position:'relative',
+    
     },blockblack: {
-        backgroundColor:'#080f17',
         height:'600px',
         display:'flex',
+        background: "#080f17",
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        position:'relative'
     },burger:{
         color:'#080f17'
     },whiteBlockItem:{
-        color:'#080f17'
+        color:'#080f17',
+        zIndex:2
     },
     blackBlockItem:{
         color:'white'
+    },
+    videoContainer:{
+        display:'flex',
+        height:'600px',
+        position:'relative',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    videoBackground: {
+       position:'absolute',
+       top:0,
+       left:0,
+       right:0,
+       bottom:0,
+       overflow:'hidden',
+       zIndex:-2
+    },opaqueOverlay: {
+        position:'absolute',
+        top:0,
+        left:0,
+        right:0,
+        bottom:0,
+        backgroundColor:'black',
+        opacity:'0.7',
+        zIndex:-1
+    },
+    video:{
+        width:'100%'
     }
 });
 class Landing extends React.Component {
@@ -140,9 +171,24 @@ class Landing extends React.Component {
                         </ListItem>
                     </List>
                 </Drawer>
-                <div className={classes.blockblack}><div className={classes.blackBlockItem}><Typography variant="h3">Lose Weight</Typography></div></div>
-                <div className={classes.blockwhite}><div className={classes.whiteBlockItem}><Typography variant="h3">Gain Muscle</Typography></div></div>
-                <div className={classes.blockblack}><div className={classes.blackBlockItem}><Typography variant="h3">Learn New Skills</Typography></div></div>
+            
+                       
+                  
+               
+               
+                <div className={classes.videoContainer}>  
+                    <div className={classes.videoBackground}>
+                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-6102982.mp4'} type="video/mp4" /></video>
+                    </div>
+                    <div className={classes.opaqueOverlay}></div>
+                    <div className={classes.blackBlockItem}><Typography variant="h3">Build a Workout Routine</Typography></div>
+                 </div>
+              
+                <div className={classes.blockwhite}>
+                    <div className={classes.whiteBlockItem}><Typography variant="h3">Gain Muscle</Typography></div>
+                    <Paper className={classes.gainMusclePaper}></Paper>
+                    </div>
+                <div className={classes.blockblack}><div className={classes.blackBlockItem}><Typography variant="h3">Build a workout Routine</Typography></div></div>
             </div>);
     }
 }
