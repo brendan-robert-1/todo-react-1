@@ -76,9 +76,6 @@ const styles = theme => ({
         opacity:'0.7',
         zIndex:-1
     },
-    video:{
-        width:'100%'
-    }
 });
 class Landing extends React.Component {
     constructor(props) {
@@ -90,12 +87,11 @@ class Landing extends React.Component {
             anchorHeader: false,
         };
         this.updateDimensions = this.updateDimensions.bind(this);
-        this.scroll = this.scroll.bind(this);
+       
     }
     componentDidMount() {
         this.updateDimensions();
         window.addEventListener("resize", this.updateDimensions);
-        window.addEventListener("scroll", this.scroll);
     }
 
     componentWillUnmount() {
@@ -107,22 +103,7 @@ class Landing extends React.Component {
 
         this.setState({ windowWidth, windowHeight });
     }
-    scroll(){
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
-        const scrolled = winScroll / height
-        if(scrolled > .3){
-            console.log('anchoring')
-            this.setState({
-                anchorHeader: true
-            })
-        }else {
-            this.setState({
-                anchorHeader: false
-            })
-        }
-       
-    }
+
     toggleDrawer(value) {
           this.setState({drawerOpen:value})
         }
@@ -130,6 +111,10 @@ class Landing extends React.Component {
         const { classes } = this.props;
         const { windowWidth } = this.state;
         const small = windowWidth < 650;
+        const videoRef = React.createRef();
+        const setPlayBack = () => {
+            videoRef.current.playbackRate = 0.8;
+          };
         return (
             <div>
                 <AppBar className={classes.header} position="sticky">
@@ -171,14 +156,9 @@ class Landing extends React.Component {
                         </ListItem>
                     </List>
                 </Drawer>
-            
-                       
-                  
-               
-               
                 <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}><div className={classes.videoContainer}>  
                     <div className={classes.videoBackground}>
-                        <video className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-61029821.mp4'} type="video/mp4" /></video>
+                        <video ref={videoRef} onCanPlay={() => setPlayBack()} className={classes.video} loop muted autoPlay><source src={'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/pexels-marko-ristic-61029821.mp4'} type="video/mp4" /></video>
                     </div>
                     <div className={classes.opaqueOverlay}></div>
                     <div className={classes.blackBlockItem}><Typography variant="h3">Learn new calisthenics skills.</Typography></div>
