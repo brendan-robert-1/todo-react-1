@@ -105,10 +105,8 @@ class Landing extends React.Component {
         this.setState({ windowWidth, windowHeight });
         const small = windowWidth < 650;
         if(small){
-            console.log('small video')
             this.setState({bottomVideo:'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/SEQ2.mp4'})
         }else{
-            console.log('big video')
             this.setState({bottomVideo:'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/production%20ID_4367507.mp4'})
         }
     }
@@ -138,12 +136,12 @@ class Landing extends React.Component {
                         <div className={classes.buttons}>
                             <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
                                 <Button color="primary" className={classes.button} 
-                                    variant="contained">Exercise Library</Button></Link>
+                                    >Exercise Library</Button></Link>
                             <Link to={{ pathname: '/login' }} style={{ textDecoration: 'none' }}>
                                 <Button color="primary" className={classes.button} 
                                     variant="contained">Login</Button></Link>
                             <Link to={{ pathname: '/register' }} style={{ textDecoration: 'none' }}>
-                                <Button color="primary" className={classes.button} variant="contained">Sign Up</Button></Link>
+                                <Button color="primary" className={classes.button} variant="outlined">Sign Up</Button></Link>
                         </div>)}
                     </Toolbar>
                     

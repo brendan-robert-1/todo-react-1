@@ -10,7 +10,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link as LinkTo } from 'react-router-dom';
+import { Link as LinkTo, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+
 
 function Copyright() {
   return (
@@ -41,11 +44,95 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
+  },root: {
+    background:'green',
+    width:'100%',
+  },errorToast:{
+    background:'red',
+    width:'100%',
+  }
 }));
 
 export default function Register() {
   const classes = useStyles();
+  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [password2, setPassword2] = React.useState('');
+  const [emailValid, setEmailValid] = React.useState(false);
+  const [userValid, setUserValid] = React.useState(false);
+  const [passwordsMatch, setPasswordsMatch] = React.useState(true)
+  const [passwordLong, setPasswordLong] = React.useState(true)
+  const [passwordValid, setPasswordValid] = React.useState(true);
+  const [password2Valid, setPassword2Valid] = React.useState(true);
+  const [successToast, setSuccessToast] = React.useState(false);
+  const [errorToast, setErrorToast] = React.useState(false);
+  const history = useHistory()
+  
+  
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    console.log('Registering new user...')
+  
+    const fieldsValid = validateFields()
+    console.log("All fields are valid and ready to fire: " + fieldsValid)
+    if(fieldsValid){
+      sendRegistrationRequest()
+    }
+  
+  }
+  
+  function sendRegistrationRequest(){
+    const registrationEndpoint = 'http://localhost:5000/users/register'
+    console.log('sending registration request to: ' + registrationEndpoint)
+    const registrationRequest = {
+      username: username,
+      email: email,
+      password: password,
+      password2: password2
+    };
+    axios.post(registrationEndpoint, registrationRequest)
+    .then((res) => {
+      const{successful, errors} = res.data;
+     
+      if(successful){
+        console.log("successful registration")
+        setSuccessToast(true)
+        setTimeout(() =>{
+          history.push('/login')
+        }, 5000);
+      }else{
+        console.log(errors)
+        setErrorToast(true)
+      }
+    }).catch((err) => {
+      console.log(err)
+    });
+  }
+ 
+  function validateFields() {
+    console.log(`username: ${username} userValid: ${userValid}`)
+    username === '' ? setUserValid(false) : setUserValid(true); // wtf
+    console.log(userValid)
+    return userValid
+    /*  email === ''? setEmailValid(false) : setEmailValid(true);
+    password !== '' ? setPasswordValid(false) : setPasswordValid(true);
+    password2 !== ''? setPassword2Valid(false) : setPassword2Valid(true)
+    password !== password2 ? setPasswordsMatch(false) : setPasswordsMatch(true)
+    password.length <= 7 ? setPasswordLong(false) : setPasswordLong(true)
+    console.log(`user valid: ${userValid} email valid: ${emailValid} passwordValid: ${passwordValid} password2Valid: ${password2Valid} passwordLong ${passwordLong} paswordsMatch ${passwordsMatch}`)
+    return userValid && emailValid && passwordValid && password2Valid && passwordLong && passwordsMatch; */
+  }
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSuccessToast(false);
+  };
+
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,40 +144,35 @@ export default function Register() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form onSubmit={handleSubmit} className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} >
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                name="username"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                error={userValid ? true: false}
+                helperText={userValid ? 'User name required' : ''}
+                id="username"
+                label="Username"
                 autoFocus
+                onChange={e => setUsername(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
+            
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
+                error={emailValid ? true: false}
+                helperText={emailValid ? 'Email is invalid' : ''}
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                onChange={e => setEmail(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -98,11 +180,27 @@ export default function Register() {
                 variant="outlined"
                 required
                 fullWidth
+                error={passwordLong && passwordValid && passwordsMatch ? false: true}
+                helperText={passwordLong && passwordValid && passwordsMatch ? '' : 'Passwords need to match and more than 7 chars'}
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
+                onChange={e => setPassword(e.target.value)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                error={password2Valid  && passwordLong && passwordsMatch ? false: true}
+                helperText={password2Valid  && passwordLong && passwordsMatch ?  '' : 'Passwords need to match and more than 7 chars'}
+                name="password2"
+                label="Re-enter Password"
+                type="password"
+                id="password2"
+                onChange={e => setPassword2(e.target.value)}
               />
             </Grid>
          
@@ -127,6 +225,32 @@ export default function Register() {
           </Grid>
         </form>
       </div>
+      <Snackbar
+          ContentProps={{
+            classes: {
+              root: classes.root
+            }
+          }}
+          anchorOrigin={{vertical:'bottom', horizontal:'center'}}
+          open={successToast}
+          onClose={handleCloseSuccess}
+          message="Registration successful!"
+          autoHideDuration='5000'
+          bodySytle
+      />
+       <Snackbar
+          ContentProps={{
+            classes: {
+              root: classes.errorToast
+            }
+          }}
+          anchorOrigin={{vertical:'bottom', horizontal:'center'}}
+          open={errorToast}
+          onClose={handleCloseSuccess}
+          message="Registration unsuccessful"
+          autoHideDuration='5000'
+          bodySytle
+      />
       <Box mt={5}>
         <Copyright />
       </Box>
