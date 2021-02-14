@@ -7,7 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import MyDrawer from './DrawerThenics';
-import { Link } from 'react-router-dom';
+import {withRouter} from 'react-router-dom'
+import auth from './auth/auth'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,8 +19,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-  },login: {
-
   }
 }));
 
@@ -45,7 +44,15 @@ const AppBarThenics = (props) => {
           <Typography variant="h6" className={classes.title}>
             Thenics Dashboard
           </Typography>
-          <Button variant="outlined" className={classes.login} component={Link} to={'/login'} color="inherit">Login</Button>
+          <Button 
+            variant="outlined" 
+            color="secondary"
+            onClick={() => {
+              auth.logout(() => {
+                console.log('log out successful')
+                props.history.push('/');
+              })
+            }}>Log out</Button>
         </Toolbar>
 
       </AppBar>
@@ -53,4 +60,4 @@ const AppBarThenics = (props) => {
     </div>
   );
 }
-export default AppBarThenics;
+export default withRouter(AppBarThenics);

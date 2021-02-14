@@ -1,83 +1,20 @@
 import React from 'react';
-import { withStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { CardContent, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import Drawer from '@material-ui/core/SwipeableDrawer';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
-import { TransitionGroup  } from 'react-transition-group' 
 import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import FooterLanding from './FooterLanding';
-const styles = theme => ({
-    root: {
-        flexGrow: 1
-    },
-    header: {
-        flexGrow:1,
-        backgroundColor:'white',
-    }, buttons: {
-        alignItems:'center'
-    }, button: {
-        margin: '5px'
-    },title:{
-        color:'#080f17',
-        flexGrow:1
-    },blockwhite: {
-        height:'600px',
-        display:'flex',
-        justifyContent:'center',
-        alignItems:'center',
-        position:'relative',
-    
-    },blockblack: {
-        height:'600px',
-        display:'flex',
-        background: "#080f17",
-        justifyContent:'center',
-        alignItems:'center',
-        position:'relative'
-    },burger:{
-        color:'#080f17'
-    },whiteBlockItem:{
-        color:'#080f17',
-        zIndex:2
-    },
-    blackBlockItem:{
-        color:'white'
-    },
-    videoContainer:{
-        display:'flex',
-        height:'600px',
-        position:'relative',
-        justifyContent:'center',
-        alignItems:'center'
-    },
-    videoBackground: {
-       position:'absolute',
-       top:0,
-       left:0,
-       right:0,
-       bottom:0,
-       overflow:'hidden',
-       zIndex:-2
-    },opaqueOverlay: {
-        position:'absolute',
-        top:0,
-        left:0,
-        right:0,
-        bottom:0,
-        backgroundColor:'black',
-        opacity:'0.7',
-        zIndex:-1
-    }
-});
+
 class Landing extends React.Component {
     constructor(props) {
         super(props);
@@ -95,7 +32,6 @@ class Landing extends React.Component {
         this.updateDimensions();
         window.addEventListener("resize", this.updateDimensions);
     }
-
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions);
     }
@@ -110,7 +46,6 @@ class Landing extends React.Component {
             this.setState({bottomVideo:'https://thenicsregiment.nyc3.digitaloceanspaces.com/landing/production%20ID_4367507.mp4'})
         }
     }
-
     toggleDrawer(value) {
           this.setState({drawerOpen:value})
         }
@@ -134,6 +69,9 @@ class Landing extends React.Component {
                             </IconButton>
                         </div>) : (
                         <div className={classes.buttons}>
+                            <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
+                                <Button color="primary" className={classes.button} 
+                                    >Progressions</Button></Link>
                             <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
                                 <Button color="primary" className={classes.button} 
                                     >Exercise Library</Button></Link>
@@ -183,4 +121,69 @@ class Landing extends React.Component {
             </div>);
     }
 }
+const styles = theme => ({
+    root: {
+        flexGrow: 1
+    },
+    header: {
+        flexGrow:1,
+        backgroundColor:'white',
+    }, buttons: {
+        alignItems:'center'
+    }, button: {
+        margin: '5px'
+    },title:{
+        color:'#080f17',
+        flexGrow:1
+    },blockwhite: {
+        height:'600px',
+        display:'flex',
+        justifyContent:'center',
+        alignItems:'center',
+        position:'relative',
+    
+    },blockblack: {
+        height:'600px',
+        display:'flex',
+        background: "#080f17",
+        justifyContent:'center',
+        alignItems:'center',
+        position:'relative'
+    },burger:{
+        color:'#080f17'
+    },whiteBlockItem:{
+        color:'#080f17',
+        zIndex:2,
+        marginLeft:'20px'
+    },
+    blackBlockItem:{
+        color:'white',
+        marginLeft:'20px',
+    },
+    videoContainer:{
+        display:'flex',
+        height:'600px',
+        position:'relative',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    videoBackground: {
+       position:'absolute',
+       top:0,
+       left:0,
+       right:0,
+       bottom:0,
+       overflow:'hidden',
+       zIndex:-2
+    },opaqueOverlay: {
+        position:'absolute',
+        top:0,
+        left:0,
+        right:0,
+        bottom:0,
+        backgroundColor:'black',
+        opacity:'0.7',
+        zIndex:-1
+    }
+});
 export default withStyles(styles, { withTheme: true })(Landing);

@@ -10,7 +10,7 @@ import Landing from './Landing';
 import Dashboard from './Dashboard';
 import { createMuiTheme } from '@material-ui/core/styles';
 import ExerciseLibrary from './ExerciseLibrary';
-
+import ProtectedRoute from './auth/ProtectedRoute'
 class App extends React.Component {
   render(){
     return (
@@ -21,11 +21,12 @@ class App extends React.Component {
                 <Route exact path='/' component={Landing}/>
                 <Route path='/dashboard' component={Dashboard}/>
                 <Route path='/workout' component={Workout}/>
-                <Route path='/exercise-profile' component={ExerciseProfile}/>
+                <ProtectedRoute path='/exercise-profile' component={ExerciseProfile}/>
                 <Route path='/add-exercise' component={AddExercise}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/register' component={Register}/>
-                <Route path='/exercise-library' component={ExerciseLibrary}/>
+                <ProtectedRoute path='/exercise-library' component={ExerciseLibrary}/>
+                <Route path='*' component={() => "404 Not Found"}/>
               </Switch>
           </Router>
         </div>

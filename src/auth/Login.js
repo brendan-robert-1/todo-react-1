@@ -1,120 +1,90 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import BackToHome from './BackToHome';
+import { makeStyles } from '@material-ui/core/styles';
+import {Formik, Form} from 'formik';
+import * as yup from 'yup';
+import TextFieldThenics from './TextFieldThenics';
+import { Typography, Button } from '@material-ui/core';
+import Copyright from './Copyright';
 import { Link as LinkTo } from 'react-router-dom';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Thenics Regiment
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import Link from '@material-ui/core/Link';
+import LockIcon from '@material-ui/icons/Lock';
+import Avatar from '@material-ui/core/Avatar';
 
 export default function Login() {
   const classes = useStyles();
-
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon color="primary"/>
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            {/*<Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            */}
-            <Grid item>
-              <LinkTo to={{ pathname: '/register' }}>
-                <Link href="#"  variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </LinkTo>
-            </Grid>
-          </Grid>
-        </form>
+    <div>
+     
+      <div className={classes.formContainer}>
+        <Avatar className={classes.avatar}><LockIcon color="primary" className={classes.lockIcon}/></Avatar>
+    
+      <Typography className={classes.title} variant="h5">Login</Typography>
+        <Formik 
+          initialValues={{email:'', password:''}}
+          onSubmit={(data, {setSubmitting}) =>{
+            console.log('submitting: ', data)
+          }}
+          validationSchema={validationSchema}>
+          {({isSubmitting}) => (
+             
+             <Form>
+               <TextFieldThenics className={classes.formItem} name="email" type="input" label="Email"></TextFieldThenics>
+               <TextFieldThenics className={classes.formItem} name="password" type="password" label="Password"></TextFieldThenics>
+               <Button className={classes.submitButton} variant="contained" disabled={isSubmitting} type="submit" color="primary">Submit</Button>
+                <LinkTo to={{ pathname: '/register' }}>
+                  <Link href="#"  variant="body2">
+                    {"Sign up to make a new account."}
+                  </Link>
+                </LinkTo>
+             </Form>
+          )}     
+        </Formik>
+        <Copyright/>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+      <BackToHome/> 
+    </div>
+
   );
 }
+
+const validationSchema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().required()
+});
+
+const useStyles = makeStyles((theme) => ({
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
+    position: 'fixed',
+    height: '100%',
+    width: '100%'
+  },
+  formItem: {
+    marginBottom: '20px',
+    width:'100%'
+  },
+  title: {
+    margin: '20px'
+  },
+  submitButton: {
+    width: '100%',
+    marginTop: '20px',
+    marginBottom: '10px'
+  },
+  copyright: {
+    margin:'50px'
+  },
+  lockIcon:{
+    fontSize:15,
+    color:'white'
+  },avatar:{
+    backgroundColor: theme.palette.primary.main,
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+  }
+}));
