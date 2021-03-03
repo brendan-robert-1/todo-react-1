@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs');
+const passport = require('passport')
 // User model
 const User = require('../models/User')
 
 //Register handle
 router.post('/register', (req, res) => {
     const{username, email, password, passwordConfirmation} = req.body;
-    console.log('got request: ' + JSON.stringify(req.body))
+    console.log('got registration request for: ', username)
     let errors = [];
 
     //check required fields
@@ -30,30 +31,51 @@ router.post('/register', (req, res) => {
         .then(user => {
             if(user) {
                 // User already exists
+                console.log(`${username} User already exists...`)
                 res.send({successful:false, errors: ["Email is already registered."]})
             } else {
                 // new user
-                const newUser = new User({
-                    username,
-                    email,
-                    password
-                });
-                
-                // Hash Password
-                bcrypt.genSalt(10, (error, salt) => 
-                    bcrypt.hash(newUser.password, salt, (error, hash)=> {
-                        if(error) throw errors;
-                        newUser.password = hash;
-                        console.log(newUser)
-                        newUser.save()
-                            .then(user => res.send({successful:true, msg:"Registration successful. You may now log in."}))
-                            .catch(err => console.log(err));
-                }));
+                const hashedPassword = bcrypt.hash(req.body.password, 10)
+                .then(hash => {
+                    const newUser = new User({
+                        username: username,
+                        email: email,
+                        password: hash
+                    });
+                    console.log('Saving to db...')
+                    newUser.save()
+                        .then(user => {
+                            console.log(`successfully saved ${username} to database`)
+                            res.send({successful:true, msg:"Registration successful. You may now log in."})
+                        })
+                        .catch(err => console.log(err));
+                }).catch(err => console.log(err))
+               
             }
         });
     }
 });
-function usernameAvailable(username){
-    return true;
-}
+router.post('/login', (req, res, next) => {
+    console.log('Got log in request for ', req.body.email);
+    passport.authenticate("local", (err, user, info)  => {
+        if(err) throw err;
+        if(!user) res.send({successful: false, errors:["Login failed."]})
+        else {
+            req.logIn(user, err => {
+                if(err) throw err;
+                console.log(`${user.username} logged in successfully`)
+                res.send({successful: true})
+            });
+        }
+    })(req, res, next);
+});
+router.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        console.log('logging out...')
+        res.send({successful:true})
+    })
+});
+router.get('/user', (req, res) => {
+    res.send(req.user)
+});
 module.exports = router;

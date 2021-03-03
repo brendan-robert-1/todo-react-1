@@ -4,34 +4,39 @@ const app = express();
 const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config();
-
-//DB Config
 const db = require('./config/keys').MongoURI
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+const passport = require('passport')
 
-//Connect to Mongo
 mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(console.log('MongoDB connected...'))
   .catch(err => console.log(err));
 
-//BodyParser
-app.use(express.json());
+//----------------------------Middleware---------------------------------
 
-//Cors
-app.use(cors());
-
-//Routes
 app.use(express.static(path.join(__dirname, 'build')));
-app.use('/users', require('./routes/users'))
+app.use(express.json());
+app.use(cors({
+  origin:"http://localhost:3000",
+  credentials: true
+}))
+app.use(session({
+  secret: process.env.COOKIE_SECRET,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passportConfig')(passport);
+
+//-------------------------Routes-----------------------------------------
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-app.get('/usertaken', function (req, res) {
-  const email = req.query.name;
-  console.log("checking if email " + email + " is taken...")
-  res.send({taken:false})
-});
-
+app.use('/users', require('./routes/users'))
 
 const port = 5000;
 console.log('starting app on port: ' + port + ' via server.js...')

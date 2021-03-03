@@ -4,15 +4,21 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Formik, Form} from 'formik';
 import * as yup from 'yup';
 import TextFieldThenics from './TextFieldThenics';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Snackbar } from '@material-ui/core';
 import Copyright from './Copyright';
-import { Link as LinkTo } from 'react-router-dom';
+import { Link as LinkTo, useHistory } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import LockIcon from '@material-ui/icons/Lock';
 import Avatar from '@material-ui/core/Avatar';
+import axios from 'axios';
+import UserProfile from './UserProfile'
 
 export default function Login() {
   const classes = useStyles();
+  const [errorToast, setErrorToast] = React.useState(false);
+  const [errorMessages, setErrorMessages] = React.useState();
+  const [successToast, setSuccessToast] = React.useState(false);
+  const history = useHistory()
   return (
     <div>
      
@@ -23,7 +29,36 @@ export default function Login() {
         <Formik 
           initialValues={{email:'', password:''}}
           onSubmit={(data, {setSubmitting}) =>{
-            console.log('submitting: ', data)
+            setSubmitting(true);
+            data.withCredentials = true;
+            axios({
+              method:"POST",
+              data: data,
+              withCredentials: true,
+              url: process.env.REACT_APP_API_HOST + "/users/login"
+            })
+            .then(res => {
+              const successful = res.data.successful;
+              console.log('login was successful: ', successful);
+              if(successful){
+                setSuccessToast(true)
+                axios({
+                  url: process.env.REACT_APP_API_HOST + '/users/user',
+                  withCredentials: true
+                })
+                .then(res => {
+                  UserProfile.setUsername(res.data.username)
+                  UserProfile.setEmail(res.data.email)
+                })
+                .catch(err => console.log(err))
+                
+                history.push('/dashboard')
+              }else{
+                setErrorMessages(res.data.errors);
+                setErrorToast(true)
+              }
+            }).catch(err => console.log(err));
+            setSubmitting(false);
           }}
           validationSchema={validationSchema}>
           {({isSubmitting}) => (
@@ -43,6 +78,30 @@ export default function Login() {
         <Copyright/>
       </div>
       <BackToHome/> 
+      <Snackbar 
+      ContentProps={{
+        classes: {
+          root: classes.errorToast
+        }
+      }}
+      message={"Invalid Credentials..."+ (errorMessages && errorMessages.map((value) => {
+        return " " + value 
+      }))} 
+      onClose={() => setErrorToast(false)} 
+      open={errorToast} 
+      autoHideDuration={5000}
+    />
+    <Snackbar 
+      ContentProps={{
+        classes: {
+          root: classes.successToast
+        }
+      }}
+      message="Login successful! "
+      onClose={() => setSuccessToast(false)} 
+      open={successToast} 
+      autoHideDuration={6000}
+    />
     </div>
 
   );

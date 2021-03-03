@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Container, Typography } from '@material-ui/core';
+import { Link, withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,6 +14,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import FooterLanding from './FooterLanding';
+import axios from 'axios'
+import UserProfile from './auth/UserProfile'
 
 class Landing extends React.Component {
     constructor(props) {
@@ -23,13 +25,14 @@ class Landing extends React.Component {
             windowHeight: 0,
             drawerOpen: false,
             anchorHeader: false,
-            bottomVideo:''
+            bottomVideo:'',
+            username: null
         };
         this.updateDimensions = this.updateDimensions.bind(this);
        
     }
-    componentDidMount() {
-        this.updateDimensions();
+    async componentDidMount() {
+        this.updateDimensions();       
         window.addEventListener("resize", this.updateDimensions);
     }
     componentWillUnmount() {
@@ -53,14 +56,13 @@ class Landing extends React.Component {
         const { classes } = this.props;
         const { windowWidth } = this.state;
         const small = windowWidth < 650;
-       
         return (
             <div>
                 <AppBar className={classes.header} position="sticky">
                     <Toolbar>
                     <Typography className={classes.title} variant={small ? 'h6' : 'h6'}>
                         (Calis)-thenics Regiments
-                </Typography>
+                    </Typography>
                     {small ? (
                         <div className={classes.buttons}>
                             <IconButton className={classes.menuButton} edge="start" color="inherit" aria-label="menu"
@@ -69,17 +71,39 @@ class Landing extends React.Component {
                             </IconButton>
                         </div>) : (
                         <div className={classes.buttons}>
+                            {UserProfile.getUsername() && 
+                                <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
+                                <Button color="primary" className={classes.button} 
+                                    >{UserProfile.getUsername()}'s Dashboard</Button></Link>
+                            }
                             <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
                                 <Button color="primary" className={classes.button} 
                                     >Progressions</Button></Link>
                             <Link to={{ pathname: '/dashboard' }} style={{ textDecoration: 'none' }}>
                                 <Button color="primary" className={classes.button} 
                                     >Exercise Library</Button></Link>
-                            <Link to={{ pathname: '/login' }} style={{ textDecoration: 'none' }}>
+                          
+                            {UserProfile.getUsername() ? (
+                                 <Button onClick={() => {
+                                    console.log("logging out")
+                                    axios.get(process.env.REACT_APP_API_HOST + "/users/logout")
+                                    .then(res =>{
+                                      console.log("log out response: " + JSON.stringify(res.data))
+                                        console.log(UserProfile.getUsername())
+                                        UserProfile.clear()
+                                        this.props.history.push('/')
+                                    })
+                                    .catch(err => console.log(err))
+                                  }} color="primary" className={classes.button} 
+                                variant="contained">Log out</Button>
+                            ) : (
+                                <React.Fragment>
+                                <Link to={{ pathname: '/login' }} style={{ textDecoration: 'none' }}>
                                 <Button color="primary" className={classes.button} 
-                                    variant="contained">Login</Button></Link>
-                            <Link to={{ pathname: '/register' }} style={{ textDecoration: 'none' }}>
-                                <Button color="primary" className={classes.button} variant="outlined">Sign Up</Button></Link>
+                                variant="contained">Login</Button></Link>
+                                <Link to={{ pathname: '/register' }} style={{ textDecoration: 'none' }}>
+                                <Button color="primary" className={classes.button} variant="outlined">Sign Up</Button></Link></React.Fragment>
+                            )}                          
                         </div>)}
                     </Toolbar>
                     
@@ -132,7 +156,9 @@ const styles = theme => ({
         alignItems:'center'
     }, button: {
         margin: '5px'
-    },title:{
+    },authButtons:{
+       alignItems:'flex-end' 
+    }, title:{
         color:'#080f17',
         flexGrow:1
     },blockwhite: {
@@ -186,4 +212,4 @@ const styles = theme => ({
         zIndex:-1
     }
 });
-export default withStyles(styles, { withTheme: true })(Landing);
+export default withRouter(withStyles(styles, { withTheme: true })(Landing));

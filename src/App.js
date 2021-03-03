@@ -19,7 +19,7 @@ class App extends React.Component {
           <Router>
               <Switch>
                 <Route exact path='/' component={Landing}/>
-                <Route path='/dashboard' component={Dashboard}/>
+                <ProtectedRoute path='/dashboard' component={Dashboard}/>
                 <Route path='/workout' component={Workout}/>
                 <ProtectedRoute path='/exercise-profile' component={ExerciseProfile}/>
                 <Route path='/add-exercise' component={AddExercise}/>
